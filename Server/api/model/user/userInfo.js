@@ -10,8 +10,8 @@ var userInfoSchema = new mongoose.Schema({
     address: String
 })
 
-toLower = (string) => {
+function toLower(string){
     string.toLowerCase();
 }
 
-mongoose.Model('UserInfo',userInfoSchema)
+mongoose.model('UserInfo',userInfoSchema)
