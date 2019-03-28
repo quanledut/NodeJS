@@ -1,0 +1,9 @@
+{
+    "db_developer":{
+        "host":"localhost",
+        "port": "27017",
+        "username": "quanle",
+        "password": "password",
+        "db_name": "nodeJS_dev"
+    }
+}
