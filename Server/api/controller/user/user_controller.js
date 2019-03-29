@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+"use strict";
+const mongoose = require("mongoose");
+const User = mongoose.model("User");
 const setResponseData = require('../../helper/setResponseData')
 
 const getAllUser = (req,res) => {
@@ -24,36 +25,22 @@ const register = async (req,res) => {
         })
     }
     else {
-        let isExistUsername = await User.findOne({username: req.body.username}).exec();
-        if(isExistUsername) {
-            setResponseData(req,200,{
-                msg:'Username is exist',
-                detail:'Tên đã tồn tại'
+        try{
+            let user = new User();
+            user._id = new mongoose.Types.ObjectId();
+            user.username = req.body.username;
+            user.generateHash(req.body.password);
+            let userResult = await user.save();
+            setResponseData(res,201,userResult);
+        }
+        catch(err){
+            setResponseData(res,400,{
+                msg:'Register failed',
+                detail:err
             })
-        }
-        else{
-            try{
-                user = new User(
-                //     {
-                //     username: req.body.username,
-                //     password: req.body.password
-                // }
-                )
-                user.username = req.body.username;
-                user.password = req.body.password;
-                let registerResult = user.save();
-                if(registerResult) {
-                    setResponseData(res,201,registerResult);
-                }
-            }
-            catch(err){
-                setResponseData(res,400,{
-                    msg:'Register error',
-                    detail:{err,registerResult}
-                });
-            }
-        }
+        }  
     }
+    
 }
 
 module.exports = {

@@ -3,7 +3,10 @@ require('dotenv');
 
 
 var dbURL = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
-mongoose.connect(dbURL,{useNewUrlParser:true});
+mongoose.connect(dbURL,{
+                            useNewUrlParser:true,
+                            useCreateIndex: true
+                        });
 mongoose.connection.on('connected',()=>{
     console.log('Connected to MongoDB');
 })
